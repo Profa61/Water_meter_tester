@@ -2,7 +2,6 @@ void autos() {
   switch (state) {
     case SETTINGS1:
       enc1.tick();
-      counter = 0;
       if (enc1.isRight()) settings.speed += 1;
       if (enc1.isLeft()) settings.speed -= 1;
       if (enc1.isFastR()) settings.speed += 10;  // если был быстрый поворот направо, увеличиваем на 10
@@ -20,25 +19,21 @@ void autos() {
       break;
 
     case START:
-      if ((counter / TURNOVER_LITER) >= settings.total_rev) {
+      if (counter >= settings.total_rev * TURNOVER_LITER) {
         state = STOP;
+        lcd.clear();
       }
-      
       if (enc1.isRight()) settings.speed += 1;
       if (enc1.isLeft()) settings.speed -= 1;
-      if (change_direction_left) {
-        motor_state = RIGHT;
-      } else {
-        motor_state = LEFT;
-      }
+      analogWrite(9, settings.speed);
       lcd_start();
+
       break;
 
     case STOP:
-      motor_state = BREAK;
-      lcd.clear();
+      analogWrite(9, 0);
       lcd_stop();
-      //counter = 0;
+      counter = 0;
       state = EXPECTATION;
       break;
 
@@ -46,40 +41,5 @@ void autos() {
       //Serial.print("ok");
 
       break;
-  }  // switch (state)
-
-
-  switch (settings.reverse) {
-    case 1:
-      if ((time_increment()) && (state == START)) {
-        settings.speed--;
-        if (RPM == 0) settings.reverse = 2;
-      }
-
-      break;
-    case 2:
-      change_direction_left = true;
-      if ((time_increment()) && (state == START)) {
-        settings.speed++;
-        if (RPM >= 250) settings.reverse = 3;
-      }
-
-      break;
-    case 3:
-      if ((time_increment()) && (state == START)) {
-        settings.speed--;
-        if (RPM == 0) settings.reverse = 4;
-      }
-
-      break;
-    case 4:
-      change_direction_left = false;
-      if ((time_increment()) && (state == START)) {
-        settings.speed++;
-        if (RPM >= 250) settings.reverse = 1;
-      }
-
-      break;
-  }  //switch (settings.reverse)
-     // Serial.println(settings.reverse);
+  }  // case
 }

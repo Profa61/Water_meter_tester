@@ -1,25 +1,18 @@
 void lcd_start() {
-  if (lcd_timeClear()) {
-    lcd_timeClear();
-    lcd.setCursor(0, 0);
-    lcd.print("rpm:");
-    lcd.setCursor(4, 0);
-    lcd.print(RPM);
-    lcd.setCursor(0, 1);
-    lcd.print("liter:");
-    lcd.setCursor(6, 1);
-    lcd.print(counter / TURNOVER_LITER);
-    lcd.setCursor(9, 0);
-    lcd.print("pwr:");
-    lcd.setCursor(13, 0);
-    lcd.print(settings.speed);
-    if (motor_state == LEFT) {
-      lcd.setCursor(12, 1);
-      lcd.print("<-");
-    } else {
-      lcd.setCursor(12, 1);
-      lcd.print("->");
-    }
+  if (lcd_timeClear()){
+  lcd_timeClear();
+  lcd.setCursor(0, 0);
+  lcd.print("rpm");
+  lcd.setCursor(4, 0);
+  lcd.print(RPM);
+  lcd.setCursor(0, 1);
+  lcd.print("cnt");
+  lcd.setCursor(4, 1);
+  lcd.print(counter);
+  lcd.setCursor(9, 0);
+  lcd.print("pwr");
+  lcd.setCursor(13, 0);
+  lcd.print(settings.speed);
   }
 }  //lcd_start
 
@@ -29,7 +22,7 @@ void lcd_stop() {
   lcd.setCursor(0, 1);
   lcd.print("CNT:");
   lcd.setCursor(5, 1);
-  lcd.print(counter / TURNOVER_LITER);
+  lcd.print(counter);
 }  //lcd_stop
 
 void lcd_settings1() {
@@ -55,4 +48,5 @@ bool lcd_timeClear() {
     return true;
   }
   return false;
-}  // lcd_timeClear
+  } // lcd_timeClear
+
