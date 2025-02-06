@@ -1,5 +1,7 @@
 void logics() {
-  if ((micros() - lastflash) > 2000000) {  //если сигнала нет больше секунды
+  if ((micros() - lastflash) > 3000000) {  //если сигнала нет больше секунды
+                                           //lastflash = micros();
+
     RPM = 0;
   }
 
@@ -7,30 +9,53 @@ void logics() {
 
     lcd.clear();
     delay(250);
-    if (state == SETTINGS1) {
-      state = SETTINGS2;
-      return;
-    }
-    if (state == EXPECTATION) {
-      state = SETTINGS1;
-      return;
-    }
-    if (state == START) {
-      state = STOP;
-      return;
-    }
-    if (state == SETTINGS2) {
-      state = START;
-      return;
+    switch (state) {
+      case SETTINGS1:
+        state = SETTINGS2;
+        return;
+
+      case SETTINGS2:
+        state = SETTINGS3;
+        return;
+
+      case SETTINGS3:
+        state = START;
+        return;
+
+      case START:
+        state = STOP;
+        return;
+
+      case EXPECTATION:
+        state = SETTINGS1;
+        return;
     }
 
-    //Serial.println(state);
-   }
-
-  // if (counter >= settings.total_rev * 4) {
-  //   state = STOP;
-  //   lcd.clear();
-  // }
-
- 
+  }
 }  //logics
+
+
+void motor_direction() {
+
+  if (motor_state == BREAK) {
+    analogWrite(MOTOR_LEFT, 0);
+    analogWrite(MOTOR_RIGHT, 0);
+  }
+  if (motor_state == LEFT) {
+    analogWrite(MOTOR_LEFT, settings.speed);
+    analogWrite(MOTOR_RIGHT, 0);
+  }
+  if (motor_state == RIGHT) {
+    analogWrite(MOTOR_LEFT, 0);
+    analogWrite(MOTOR_RIGHT, settings.speed);
+  }
+
+}  //motor_direction
+
+bool time_increment() {
+  if (millis() - time_speed_reduction > settings.time_revers) {
+    time_speed_reduction = millis();
+    return true;
+  }
+  return false;
+}  //time_increment()

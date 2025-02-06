@@ -57,28 +57,3 @@ void serial() {
     }
   }
 }  // void uart()
-
-
-
-
-// Serial.println(key);
-// Serial.println(val);
-// if (key == 's') settings.speed = val;
-// if (key == 't') settings.total_rev = val;
-// if (key == 'a') state = START;
-// if (key == 'b') state = STOP;
-// if (key == 'p') settings.reverse = val;
-// if (key == 'r') counter = val;
-// if (key == 'c') change_direction_left = val;
-// if (key == 'k') {
-
-// Serial.print("1,");  // Тест отправки в Serial
-// Serial.print(settings.total_rev);
-// Serial.print(",");
-// Serial.println(settings.speed);
-//Serial.println(",");
-// }
-//   }
-
-
-// }  // void uart()
