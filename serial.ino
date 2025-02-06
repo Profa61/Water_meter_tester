@@ -48,11 +48,8 @@ void serial() {
         break;
 
       case 'k':
-        // Serial.print("1,");  // Тест отправки в Serial
         Serial.print(settings.total_rev);
-        // Serial.print(",");
-        // Serial.println(settings.speed);
-        // Serial.println(",");
+
         break;
     }
   }
